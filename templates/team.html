@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ team.country_name }} Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/details.css') }}">
+</head>
+<body>
+    <h1>{{ team.country_name }} Details</h1>
+    <table>
+        <tbody>
+            <tr>
+                <th>Team ID:</th>
+                <td>{{ team.team_id }}</td>
+            </tr>
+            <tr>
+                <th>Country:</th>
+                <td>{{ team.country_name }}</td>
+            </tr>
+            <tr>
+                <th>No. of Batsmen:</th>
+                <td>{{ team.no_of_batsmen }}</td>
+            </tr>
+            <tr>
+                <th>No. of Bowlers:</th>
+                <td>{{ team.no_of_bowlers }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

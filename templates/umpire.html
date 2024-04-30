@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umpire Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/details.css') }}">
+</head>
+<body>
+    <h1>Umpire Details</h1>
+    <table>
+        <tbody>
+            <tr>
+                <th>Umpire ID:</th>
+                <td>{{ umpire.umpire_id }}</td>
+            </tr>
+            <tr>
+                <th>Name:</th>
+                <td>{{ umpire.umpire_name }}</td>
+            </tr>
+            <tr>
+                <th>No. of Matches:</th>
+                <td>{{ umpire.no_of_matches }}</td>
+            </tr>
+            <tr>
+                <th>Country:</th>
+                <td>{{ umpire.country }}</td>
+            </tr>
+            <tr>
+                <th>Date of Birth:</th>
+                <td>{{ umpire.dob }}</td>
+            </tr>
+            <tr>
+                <th>Experience:</th>
+                <td>{{ umpire.experience }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

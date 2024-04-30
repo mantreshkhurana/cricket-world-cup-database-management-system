@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket World Cup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Cricket World Cup</h1> 
+        <img src="{{ url_for('static', filename='images/cricket.gif') }}" height="100px" alt="Cricket GIF">
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#home" onclick="showTab('home')">Home</a></li>
+            <li><a href="#players" onclick="showTab('players')">Players</a></li>
+            <li><a href="#teams" onclick="showTab('teams')">Teams</a></li>
+            <li><a href="#matches" onclick="showTab('matches')">Matches</a></li>
+            <li><a href="#umpires" onclick="showTab('umpires')">Umpires</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+        </ul>
+    </nav>
+    <section id="home" class="tab-content">
+        <div class="benefits">
+            <h2>Explore the Cricket World Cup Website</h2>
+            <p>Discover the exciting features and benefits of our website.</p>
+            <div class="feature-boxes">
+                <div class="feature-box" onclick="showTab('players')">
+                    <img src="{{ url_for('static', filename='images/benefit-1.jpeg') }}" alt="Benefit 1">
+                    <h3>Player Profiles</h3>
+                    <p>Explore detailed profiles of your favorite cricket players.</p>
+                </div>
+                <div class="feature-box" onclick="showTab('teams')">
+                    <img src="{{ url_for('static', filename='images/benefit-2.jpeg') }}" alt="Benefit 2">
+                    <h3>Team Information</h3>
+                    <p>Learn about different cricket teams participating in the World Cup.</p>
+                </div>
+                <div class="feature-box" onclick="showTab('matches')">
+                    <img src="{{ url_for('static', filename='images/benefit-3.jpeg') }}" alt="Benefit 3">
+                    <h3>Match Results</h3>
+                    <p>Stay updated with live match results and scores.</p>
+                </div>
+            </div>            
+        </div>
+    </section>    
+    <section id="players" class="tab-content" style="display: none;">
+        <h2>All Players</h2>
+        <input type="text" id="playerSearch" onkeyup="searchPlayers()" placeholder="Search for players...">
+        <select id="playerFilter" onchange="searchPlayers()">
+            <option value="name">Name</option>
+            <option value="type">Type of Player</option>
+            <option value="runs">Total Runs</option>
+        </select>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Player ID</th>
+                    <th>Name</th>
+                    <th>Date of Birth</th>
+                    <th>Type of Player</th>
+                    <th>Total Runs</th>
+                </tr>
+            </thead>
+            <tbody id="playerTable">
+                {% for player in players %}
+                <tr>
+                    <td>{{ player.player_id }}</td>
+                    <td><a href="{{ url_for('player', player_id=player.player_id) }}">{{ player.player_name }}</a></td>
+                    <td>{{ player.dob }}</td>
+                    <td>{{ player.type_of_player }}</td>
+                    <td>{{ player.total_runs }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>    
+    <section id="teams" class="tab-content" style="display: none;">
+        <h2>All Teams</h2>
+        <input type="text" id="teamSearch" onkeyup="searchTeams()" placeholder="Search for teams...">
+        <select id="teamFilter" onchange="searchTeams()">
+            <option value="country">Country</option>
+            <option value="batsmen">No. of Batsmen</option>
+            <option value="bowlers">No. of Bowlers</option>
+        </select>
+        <table>
+            <thead>
+                <tr>
+                    <th>Team ID</th>
+                    <th>Country</th>
+                    <th>No. of Batsmen</th>
+                    <th>No. of Bowlers</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in teams %}
+                <tr>
+                    <td>{{ team.team_id }}</td>
+                    <td><a href="{{ url_for('team', team_id=team.team_id) }}">{{ team.country_name }}</a></td>
+                    <td>{{ team.no_of_batsmen }}</td>
+                    <td>{{ team.no_of_bowlers }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <section id="matches" class="tab-content"  style="display: none;">
+        <h2>All Matches</h2>
+        <input type="text" id="matchSearch" onkeyup="searchMatches()" placeholder="Search for matches...">
+        <select id="matchFilter" onchange="searchMatches()">
+            <option value="team1">Team 1</option>
+            <option value="team2">Team 2</option>
+            <option value="result">Result</option>
+        </select>
+        <table>
+            <thead>
+                <tr>
+                    <th>Match ID</th>
+                    <th>Team 1</th>
+                    <th>Team 2</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for match in matches %}
+                <tr>
+                    <td>{{ match.match_id }}</td>
+                    <td><a href="{{ url_for('match', match_id=match.match_id) }}">{{ match.team1 }}</a></td>
+                    <td><a href="{{ url_for('match', match_id=match.match_id) }}">{{ match.team2 }}</a></td>
+                    <td>{{ match.result }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <section id="umpires" class="tab-content" style="display: none;">
+        <h2>All Umpires</h2>
+        <input type="text" id="umpireSearch" onkeyup="searchUmpires()" placeholder="Search for umpires...">
+        <select id="umpireFilter" onchange="searchUmpires()">
+            <option value="name">Name</option>
+            <option value="matches">No. of Matches</option>
+            <option value="country">Country</option>
+        </select>
+        <table>
+            <thead>
+                <tr>
+                    <th>Umpire ID</th>
+                    <th>Name</th>
+                    <th>No. of Matches</th>
+                    <th>Country</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for umpire in umpires %}
+                <tr>
+                    <td>{{ umpire.umpire_id }}</td>
+                    <td><a href="{{ url_for('umpire', umpire_id=umpire.umpire_id) }}">{{ umpire.umpire_name }}</a></td>
+                    <td>{{ umpire.no_of_matches }}</td>
+                    <td>{{ umpire.country }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

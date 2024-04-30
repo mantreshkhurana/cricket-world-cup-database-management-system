@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/details.css') }}">
+</head>
+<body>
+    <h1>Match Details</h1>
+    <table>
+        <tbody>
+            <tr>
+                <th>Match ID:</th>
+                <td>{{ match.match_id }}</td>
+            </tr>
+            <tr>
+                <th>Team 1:</th>
+                <td>{{ match.team1 }}</td>
+            </tr>
+            <tr>
+                <th>Team 2:</th>
+                <td>{{ match.team2 }}</td>
+            </tr>
+            <tr>
+                <th>Result:</th>
+                <td>{{ match.result }}</td>
+            </tr>
+            <tr>
+                <th>Date:</th>
+                <td>{{ match.date }}</td>
+            </tr>
+            <tr>
+                <th>Venue:</th>
+                <td>{{ match.venue }}</td>
+            </tr>
+            <tr>
+                <th>Man of the Match:</th>
+                <td>{{ match.man_of_the_match }}</td>
+            </tr>
+            <tr>
+                <th>Match Type:</th>
+                <td>{{ match.match_type }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
