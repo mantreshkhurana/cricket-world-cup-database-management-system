@@ -1,32 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Panel</title>
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <script src="{{ url_for('static', filename='js/player.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 <body>
-    <h1>Welcome Admin!</h1>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="#players" onclick="showTab('players')">Players</a></li>
+            <li><a href="#teams" onclick="showTab('teams')">Teams</a></li>
+            <li><a href="#matches" onclick="showTab('matches')">Matches</a></li>
+            <li><a href="#umpires" onclick="showTab('umpires')">Umpires</a></li>
+        </ul>
+    </nav>
     <div class="admin-container">
-
-        <h2>Edit Player Details</h2>
-        <form action="/edit_player" method="POST">
-            <input type="text" name="player_id" placeholder="Player ID" required><br><br>
-            <button type="submit">Submit</button>
-        </form>
-
-        <h2>Edit Team Details</h2>
-        <form action="/edit_team" method="POST">
-            <input type="text" name="team_id" placeholder="Team ID" required><br><br>
-            <button type="submit">Submit</button>
-        </form>
-
-        <h2>Edit Umpire Details</h2>
-        <form action="/edit_umpire" method="POST">
-            <input type="text" name="umpire_id" placeholder="Umpire ID" required><br><br>
-            <button type="submit">Submit</button>
-        </form>
+        <h1>Welcome Admin!</h1>
+        <section id="players" class="tab-content" style="display: none;">
+            <h2>All Players</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Player ID</th>
+                            <th>Player Name</th>
+                            <th>Date of Birth</th>
+                            <th>Type of Player</th>
+                            <th>Total Runs</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in players %}
+                        <tr>
+                            <td>{{ player.player_id }}</td>
+                            <td>{{ player.player_name }}</td>
+                            <td>{{ player.dob }}</td>
+                            <td>{{ player.type_of_player }}</td>
+                            <td>{{ player.total_runs }}</td>
+                            <td>
+                                <button
+                                    onclick="editPlayer('{{ player.player_id }}', '{{ player.player_name }}', '{{ player.dob }}', '{{ player.type_of_player }}', '{{ player.total_runs }}', '{{ player.t20 }}', '{{ player.test }}', '{{ player.odi }}', '{{ player.batting_average }}', '{{ player.no_of_sixes }}', '{{ player.no_of_fours }}', '{{ player.economy }}', '{{ player.no_of_wickets }}', '{{ player.highest_run_scored }}')"
+                                >
+                                    Edit
+                                </button>
+                                <button onclick="deletePlayer('{{ player.player_id }}')">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+            <h2>Edit Player Details</h2>
+            <form action="/edit_player" method="POST" id="edit-player-form">
+                <input type="hidden" name="player_id" id="edit-player-id" value="" />
+                <input type="text" name="player_name" id="edit-player-name" placeholder="Player Name" required /><br />
+                <input type="text" name="dob" id="edit-player-dob" placeholder="Date of Birth (YYYY-MM-DD)" required /><br />
+                <input type="text" name="type_of_player" id="edit-player-type" placeholder="Type of Player" required /><br />
+                <input type="text" name="total_runs" id="edit-player-total-runs" placeholder="Total Runs" required /><br />
+                <input type="text" name="t20" id="edit-player-t20" placeholder="T20 Matches" required /><br />
+                <input type="text" name="test" id="edit-player-test" placeholder="Test Matches" required /><br />
+                <input type="text" name="odi" id="edit-player-odi" placeholder="ODI Matches" required /><br />
+                <input type="text" name="batting_average" id="edit-player-batting-average" placeholder="Batting Average" required /><br />
+                <input type="text" name="no_of_sixes" id="edit-player-no-of-sixes" placeholder="No. of Sixes" required /><br />
+                <input type="text" name="no_of_fours" id="edit-player-no-of-fours" placeholder="No. of Fours" required /><br />
+                <input type="text" name="economy" id="edit-player-economy" placeholder="Economy" required /><br />
+                <input type="text" name="no_of_wickets" id="edit-player-no-of-wickets" placeholder="No. of Wickets" required /><br />
+                <input type="text" name="highest_run_scored" id="edit-player-highest-run-scored" placeholder="Highest Score" required /><br />
+                <button type="submit">Update</button>
+            </form>
+            <hr />
+            <h2>Add New Player</h2>
+            <form action="/add_player" method="POST">
+                <input type="text" name="player_name" placeholder="Player Name" required /><br />
+                <input type="text" name="dob" placeholder="Date of Birth (YYYY-MM-DD)" required /><br />
+                <input type="text" name="type_of_player" placeholder="Type of Player" required /><br />
+                <input type="text" name="total_runs" placeholder="Total Runs" required /><br />
+                <input type="text" name="t20" placeholder="T20 Matches" required /><br />
+                <input type="text" name="test" placeholder="Test Matches" required /><br />
+                <input type="text" name="odi" placeholder="ODI Matches" required /><br />
+                <input type="text" name="batting_average" placeholder="Batting Average" required /><br />
+                <input type="text" name="no_of_sixes" placeholder="No. of Sixes" required /><br />
+                <input type="text" name="no_of_fours" placeholder="No. of Fours" required /><br />
+                <input type="text" name="economy" placeholder="Economy" required /><br />
+                <input type="text" name="no_of_wickets" placeholder="No. of Wickets" required /><br />
+                <input type="text" name="highest_run_scored" placeholder="Highest Score" required /><br />
+                <button type="submit">Add Player</button>
+            </form>
+        </section>  
+        <section id="teams" class="tab-content" style="display: none;">
+            <h2>All Teams</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Team ID</th>
+                            <th>Country</th>
+                            <th>No. of Batsmen</th>
+                            <th>No. of Bowlers</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for team in teams %}
+                        <tr>
+                            <td>{{ team.team_id }}</td>
+                            <td>{{ team.country }}</td>
+                            <td>{{ team.batsmen_count }}</td>
+                            <td>{{ team.bowlers_count }}</td>
+                            <td>
+                                <button onclick="editTeam('{{ team.team_id }}')">Edit</button>
+                                <button onclick="deleteTeam('{{ team.team_id }}')">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+            <h2>Add New Team</h2>
+            <form action="/add_team" method="POST">
+                <!-- Form fields for adding a new team -->
+            </form>
+        </section>  
+        <section id="matches" class="tab-content" style="display: none;">
+            <h2>All Matches</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Match ID</th>
+                            <th>Team 1</th>
+                            <th>Team 2</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for match in matches %}
+                        <tr>
+                            <td>{{ match.match_id }}</td>
+                            <td>{{ match.team1 }}</td>
+                            <td>{{ match.team2 }}</td>
+                            <td>{{ match.date }}</td>
+                            <td>{{ match.location }}</td>
+                            <td>
+                                <button onclick="editMatch('{{ match.match_id }}')">Edit</button>
+                                <button onclick="deleteMatch('{{ match.match_id }}')">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+            <h2>Add New Match</h2>
+            <form action="/add_match" method="POST">
+                <!-- Form fields for adding a new match -->
+            </form>
+        </section>
+        <section id="umpires" class="tab-content" style="display: none;">
+            <h2>All Umpires</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Umpire ID</th>
+                            <th>Name</th>
+                            <th>Nationality</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for umpire in umpires %}
+                        <tr>
+                            <td>{{ umpire.umpire_id }}</td>
+                            <td>{{ umpire.name }}</td>
+                            <td>{{ umpire.nationality }}</td>
+                            <td>
+                                <button onclick="editUmpire('{{ umpire.umpire_id }}')">Edit</button>
+                                <button onclick="deleteUmpire('{{ umpire.umpire_id }}')">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+            <h2>Add New Umpire</h2>
+            <form action="/add_umpire" method="POST">
+                <!-- Form fields for adding a new umpire -->
+            </form>
+        </section>   
     </div>
 </body>
 </html>
