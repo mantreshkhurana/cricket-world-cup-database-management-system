@@ -54,6 +54,15 @@ This is a database management system for a cricket world cup. The system is desi
     ```
 4. Run the `app.py` file
 
+> Note: Admin credentials are hardcoded in the `app.py` file
+
+```txt
+username: admin
+password: admin
+```
+
+---
+
 ```bash
 python -m venv venv
 source venv/bin/activate
